@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <title>Bir Dakikanı Ayırır mısın?</title>
   <style>
-    body {
+    body 
+    {
       margin: 0; padding: 0;
       background: #fef3f3;
       font-family: 'Segoe UI', sans-serif;
@@ -38,13 +39,13 @@
 </head>
 <body>
 
-  <!-- 🎵 Giriş Müziği (bensound-slowmotion) -->
-  <audio id="introMusic" autoplay loop>
+  <!-- 🎵 Giriş Müziği (bensound-love) -->
+  <audio id="introMusic" loop>
     <source src="bensound-love.mp3" type="audio/mpeg">
     Tarayıcınız müzik etiketini desteklemiyor.
   </audio>
 
-  <!-- 🎶 "Evet" butonuna basılınca Vocaroo kaydı çalacak -->
+  <!-- 🎶 "Evet" butonuna basılınca Altay şarkısı çalacak -->
   <audio id="altayMusic">
     <source src="Altay.mp3" type="audio/mpeg">
     Tarayıcınız müzik etiketini desteklemiyor.
@@ -82,10 +83,18 @@
     ];
     let index = 0;
 
+    const introMusic = document.getElementById("introMusic");
+    const altayMusic = document.getElementById("altayMusic");
+
     function startMessages() {
       document.getElementById("intro").classList.add("hidden");
       document.getElementById("messages").classList.remove("hidden");
       document.getElementById("messageBox").textContent = messages[index];
+      
+      // Kullanıcı etkileşimi olduğu için müziği burda çalıyoruz
+      introMusic.play().catch(() => {
+        console.log("Otomatik oynatma engellendi, kullanıcı etkileşimi gerekiyor.");
+      });
     }
 
     function nextMessage() {
@@ -99,10 +108,9 @@
     }
 
     function showLove() {
-      const introMusic = document.getElementById("introMusic");
-      const altay = document.getElementById("altayMusic");
-      introMusic.pause(); introMusic.currentTime = 0;
-      altay.play().catch(() => {
+      introMusic.pause();
+      introMusic.currentTime = 0;
+      altayMusic.play().catch(() => {
         alert("Tarayıcı otomatik müzik çalmayı engelledi. Lütfen manuel başlat.");
       });
       document.getElementById("final").classList.add("hidden");
