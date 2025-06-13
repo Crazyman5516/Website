@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Bir Dakikanı Ayırır mısın?</title>
+  <style>
+    body {
+      margin: 0; padding: 0;
+      background: #fef3f3;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+    h1, p { margin: 20px; }
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .yes-btn { background-color: #ff4d6d; color: white; }
+    .no-btn {
+      background-color: #ccc; color: black;
+      position: absolute;
+    }
+    .hidden { display: none; }
+    #messageBox {
+      font-size: 22px; margin: 30px;
+      max-width: 600px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🎵 Giriş Müziği (bensound-slowmotion) -->
+  <audio id="introMusic" autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-slowmotion.mp3" type="audio/mpeg">
+    Tarayıcınız müzik etiketini desteklemiyor.
+  </audio>
+
+  <!-- 🎶 "Evet" butonuna basılınca Vocaroo kaydı çalacak -->
+  <audio id="altayMusic">
+    <source src="Altay.mp3" type="audio/mpeg">
+    Tarayıcınız müzik etiketini desteklemiyor.
+  </audio>
+
+  <div id="intro">
+    <h1>Sana söylemek istediklerim var...</h1>
+    <button onclick="startMessages()">Devam Et</button>
+  </div>
+
+  <div id="messages" class="hidden">
+    <div id="messageBox"></div>
+    <button onclick="nextMessage()">Sonraki</button>
+  </div>
+
+  <div id="final" class="hidden">
+    <h1>Özür Dilerim😔😔😔</h1>
+    <p>Barışalım mı?</p>
+    <button class="yes-btn" onclick="showLove()">Evet</button>
+    <button class="no-btn" onmouseover="moveButton()">Hayır</button>
+  </div>
+
+  <div id="love" class="hidden">
+    <h1>🎉 Hah biliyordum zaten! 🎉</h1>
+    <p>Doğru karar arkandayım. Şimdi en sevdiğin şarkıyı dinleyebilirsin!!🔥🔥🔥🔥🔥</p>
+  </div>
+
+  <script>
+    const messages = [
+      "Biliyorum bazı şeyler seni kırdı.🫥🫥🫥",
+      "Ama bilerek yapmadım🤕🤕🤕",
+      "Birlikte her şey daha güzel🫤🫤🫤",
+      "Elemana bir şans daha ver olur mu?🤖🤖🤖",
+      "Parollada da yenmem merak etme👻👻👻"
+    ];
+    let index = 0;
+
+    function startMessages() {
+      document.getElementById("intro").classList.add("hidden");
+      document.getElementById("messages").classList.remove("hidden");
+      document.getElementById("messageBox").textContent = messages[index];
+    }
+
+    function nextMessage() {
+      index++;
+      if (index < messages.length) {
+        document.getElementById("messageBox").textContent = messages[index];
+      } else {
+        document.getElementById("messages").classList.add("hidden");
+        document.getElementById("final").classList.remove("hidden");
+      }
+    }
+
+    function showLove() {
+      const introMusic = document.getElementById("introMusic");
+      const altay = document.getElementById("altayMusic");
+      introMusic.pause(); introMusic.currentTime = 0;
+      altay.play().catch(() => {
+        alert("Tarayıcı otomatik müzik çalmayı engelledi. Lütfen manuel başlat.");
+      });
+      document.getElementById("final").classList.add("hidden");
+      document.getElementById("love").classList.remove("hidden");
+    }
+
+    function moveButton() {
+      const btn = document.querySelector(".no-btn");
+      btn.style.top = Math.random() * 80 + "%";
+      btn.style.left = Math.random() * 80 + "%";
+    }
+  </script>
+
+</body>
+</html>
